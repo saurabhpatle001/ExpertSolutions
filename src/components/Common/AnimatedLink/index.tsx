@@ -1,4 +1,5 @@
 'use client';
+
 import { useState } from 'react';
 import { Div, Word, Span, AbsoluteContainer } from './styles';
 
@@ -57,26 +58,39 @@ const letterAnimationTwo = {
   },
 };
 
-const AnimatedLink = ({ title }: { title: string }) => {
+interface AnimatedLinkProps {
+  title: string;
+  href?: string;
+  onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
+}
+
+const AnimatedLink = ({ title, href = '#', onClick }: AnimatedLinkProps) => {
   const [isHovered, setIsHovered] = useState(false);
+
   return (
-    <Div
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+    <a
+      href={href}
+      onClick={onClick}
+      style={{ textDecoration: 'none', color: 'inherit' }}
     >
-      <AnimatedWord
-        title={title}
-        animations={letterAnimation}
-        isHovered={isHovered}
-      />
-      <AbsoluteContainer>
+      <Div
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
         <AnimatedWord
           title={title}
-          animations={letterAnimationTwo}
+          animations={letterAnimation}
           isHovered={isHovered}
         />
-      </AbsoluteContainer>
-    </Div>
+        <AbsoluteContainer>
+          <AnimatedWord
+            title={title}
+            animations={letterAnimationTwo}
+            isHovered={isHovered}
+          />
+        </AbsoluteContainer>
+      </Div>
+    </a>
   );
 };
 
