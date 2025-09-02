@@ -11,7 +11,7 @@ export const ServicesContainer = styled.section`
   display: flex;
   align-items: center;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     flex-direction: column;
     padding: 40px 10px;
     text-align: center;
@@ -32,7 +32,7 @@ export const TextContainer = styled.div`
     margin: 0;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     flex: 0 0 auto;
     margin-right: 0;
     margin-bottom: 20px;
@@ -40,41 +40,29 @@ export const TextContainer = styled.div`
 `;
 
 // Styles for the cards container, handling slider and overflow
-interface CardsContainerProps {
-  dataSlide?: number;
-}
-
-export const CardsContainer = styled.div<CardsContainerProps>`
+export const CardsContainer = styled.div`
   position: relative;
   flex: 1;
   overflow: hidden;
-  padding-left: 0; // Reset padding to ensure first card is fully visible
+  padding-left: 0;
 
   .cards-wrapper {
     display: flex;
-    transition: transform 0.7s ease-in-out;
     gap: 20px;
 
-    @media (max-width: 768px) {
-      flex-direction: row;
-      transform: translateX(-${props => (props.dataSlide ?? 0) * 20}%) !important;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      scroll-behavior: smooth;
-      padding-bottom: 10px;
-      min-height: 300px; // Ensure cards are fully visible
-      padding-left: 0; // Ensure no cut-off on the left
-      margin-left: 0; // Align first card to the start
+    @media (max-width: 1024px) {
+      min-height: 340px; // Match mobile card height
     }
   }
 
-  .dots-container {
+  .decorative-arrows {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 10px;
-    margin-top: 15px; // Adjusted for better spacing
+    margin-top: 15px;
 
-    @media (min-width: 769px) {
+    @media (min-width: 1025px) {
       display: none;
     }
   }
@@ -98,9 +86,9 @@ export const ServiceCard = styled.div`
     font-size: 1.2em;
     font-weight: 600;
     margin-bottom: 10px;
-    z-index: 2; // Place text in front of image
+    z-index: 2;
     position: relative;
-    color: #cfb790; // Updated text color
+    color: #cfb790;
   }
 
   .image-container {
@@ -110,7 +98,7 @@ export const ServiceCard = styled.div`
     width: 100%;
     height: 100%;
     cursor: pointer;
-    overflow: hidden; // Ensure image stays within bounds
+    overflow: hidden;
   }
 
   &:hover .card-image {
@@ -124,16 +112,24 @@ export const ServiceCard = styled.div`
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 20px; // Match card's border-radius
+    border-radius: 20px;
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
-    z-index: 1; // Image behind text
+    z-index: 1;
+
+    @media (max-width: 1024px) {
+      opacity: 1; // No hover effect on mobile/tablet
+    }
+  }
+
+  @media (min-width: 769px) and (max-width: 1024px) {
+    min-width: 260px;
+    height: 370px;
   }
 
   @media (max-width: 768px) {
     min-width: 240px;
     height: 340px;
-    margin-bottom: 0;
   }
 `;
 
@@ -166,25 +162,17 @@ export const SliderArrow = styled.button`
     background: rgba(0, 0, 0, 0.7);
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     display: none;
   }
 `;
 
-// Styles for dot navigation in mobile view
-interface DotProps {
-  active?: boolean;
-}
-
-export const Dot = styled.span<DotProps>`
-  width: 10px;
-  height: 10px;
-  background: ${props => (props.active ? '#f14950' : '#ccc')};
-  border-radius: 50%;
-  cursor: pointer;
-  transition: background 0.3s ease;
-
-  &:hover {
-    background: ${props => (props.active ? '#f14950' : '#aaa')};
-  }
+// Styles for the slide text
+export const slideText = styled.span`
+  font-size: 16px;
+  color: #ffffff;
+  font-weight: 500;
+  opacity: 0.7;
+  cursor: default; // No interaction
+  pointer-events: none; // Disable click events
 `;

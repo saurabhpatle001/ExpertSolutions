@@ -76,11 +76,12 @@ export const CardsContainer = styled.div`
   align-items: center;
   justify-content: center;
   gap: 4rem;
-  margin-bottom: 7.77rem;
+  margin-bottom: 3.77rem;
   width: 100%;
 
   @media (max-width: 768px) {
-    gap: 1.5rem;
+    gap: 1rem;
+    padding: 0 0.0rem;
   }
 `;
 
@@ -93,30 +94,59 @@ export const Card = styled.div`
   width: 250px;
   height: 393px;
   overflow: hidden;
+  position: relative;
+
+  @media (min-width: 769px) and (max-width: 1024px) {
+    width: 220px;
+    height: 346px;
+  }
 
   @media (max-width: 768px) {
-    width: 180px;
-    height: 283px;
+    width: 200px;
+    height: 315px;
   }
 `;
 
-export const LeftImage = styled(Image)`
+export const LeftImage = styled.div`
+  position: relative;
   width: 100%;
   height: 100%;
-  border-radius: 0.5rem;
-  object-fit: cover;
+
+  & > * {
+    border-radius: 0.5rem;
+  }
 `;
 
-export const MiddleImage = styled(Image)`
+export const MiddleImage = styled.div`
+  position: relative;
   width: 100%;
   height: 100%;
-  border-radius: 0.5rem;
-  object-fit: cover;
+
+  & > * {
+    border-radius: 0.5rem;
+  }
 `;
 
-export const RightImage = styled(Image)`
+export const RightImage = styled.div`
+  position: relative;
   width: 100%;
   height: 100%;
-  border-radius: 0.5rem;
-  object-fit: cover;
+
+  & > * {
+    border-radius: 0.5rem;
+  }
+`;
+
+export const DotsContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5rem;
+  gap: 0.5rem;
+`;
+
+export const Dot = styled.div<{ active: boolean }>`
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: ${(props) => (props.active ? '#8a6f49' : '#9b8153')};
 `;
