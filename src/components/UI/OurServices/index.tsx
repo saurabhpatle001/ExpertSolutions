@@ -186,11 +186,12 @@ const OurServices = () => {
             />
           </SliderArrow>
         )}
-        {(isMobile || window.innerWidth <= 1024) && (
-          <div className="decorative-arrows">
-            <span className="slide-text">slide card</span>
-          </div>
-        )}
+        {isMobile && (
+  <div className="decorative-arrows">
+    <span className="slide-text">Slide Card</span>
+  </div>
+)}
+
       </CardsContainer>
     </ServicesContainer>
   );
