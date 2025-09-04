@@ -49,7 +49,7 @@ export const HeroTextContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  padding-bottom: 2rem;
+  padding-bottom: 5rem;
   transform: translateY(2rem); /* Moved downward by 2rem - Adjusted for text block */
 
   h1 {
@@ -67,7 +67,7 @@ export const HeroTextContainer = styled.div`
 
   @media (max-width: 768px) {
     gap: 1rem;
-    padding-bottom: 1.5rem;
+    padding-bottom: 5rem;
     transform: translateY(1.5rem); /* Adjusted downward by 1.5rem for mobile */
     h1 {
       font-size: 2.5rem;
