@@ -2,6 +2,7 @@ import Layout from '@/components/Layout';
 import './globals.css';
 import type { Metadata } from 'next';
 import Image from 'next/image';
+import Script from 'next/script';
 
 export const metadata: Metadata = {
   title: 'Expert Solutions | Indore\'s No.1 Waterproofing & Heatproofing Services',
@@ -34,21 +35,19 @@ const CallIcon = () => {
   return (
     <a href="tel:+919644400650" aria-label="Call Expert Solutions" style={{
       position: 'fixed',
-bottom: '52px',
-right: '41px',
-width: '53px',
-height: '53px',
-backgroundColor: '#28a745', // Green color
-borderRadius: '20%',         // Makes it round
-overflow: 'hidden',          // Ensures image corners stay inside
-display: 'flex',
-alignItems: 'center',
-justifyContent: 'center',
-boxShadow: '0 0 12px rgba(0, 0, 0, 0.5)', // Rounded black shadow
-zIndex: 1000,
-textDecoration: 'none',
-
-
+      bottom: '52px',
+      right: '41px',
+      width: '53px',
+      height: '53px',
+      backgroundColor: '#28a745', // Green color
+      borderRadius: '20%',         // Makes it round
+      overflow: 'hidden',          // Ensures image corners stay inside
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      boxShadow: '0 0 12px rgba(0, 0, 0, 0.5)', // Rounded black shadow
+      zIndex: 1000,
+      textDecoration: 'none',
     }}>
       <div style={{ position: 'relative', width: '100%', height: '100%' }}>
         <Image
@@ -69,6 +68,24 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-17536235395"
+          strategy="afterInteractive"
+        />
+        <Script
+          id="gtag-init"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'AW-17536235395');
+            `,
+          }}
+        />
+      </head>
       <body>
         <Layout>{children}</Layout>
         <CallIcon />
