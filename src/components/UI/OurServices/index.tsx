@@ -185,7 +185,7 @@ const OurServices = () => {
             onTouchMove={(swiper) => {
               const touch = swiper.touches.currentX - swiper.touches.startX;
               swiper.setTranslate(swiper.getTranslate() + touch); // Enable bidirectional swiping
-            }}
+             }}
           >
             {services.map((service) => (
               <SwiperSlide key={service.title}>
