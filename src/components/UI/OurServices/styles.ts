@@ -14,7 +14,11 @@ export const ServicesContainer = styled.section`
   @media (max-width: 1024px) {
     flex-direction: column;
     padding: 40px 10px;
-    text-align: center;
+    min-height: 100vh;
+    background-image: url('/images/Service-background-2.png'); /* Changed from #2195f1 */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
   }
 `;
 
@@ -51,7 +55,37 @@ export const CardsContainer = styled.div`
     gap: 20px;
 
     @media (max-width: 1024px) {
-      min-height: 340px; // Match mobile card height
+      display: none; // Hide custom slider on mobile/tablet
+    }
+  }
+
+  .swiper-mobile {
+    width: 100%;
+    padding-top: 50px;
+    padding-bottom: 50px;
+
+    .swiper-slide {
+      width: 300px;
+      height: 400px;
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+      filter: blur(1px);
+      border-radius: 20px;
+      background-image: url('/images/Service-background-2.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .swiper-slide-active {
+      filter: blur(0px);
+    }
+
+    .swiper-pagination-bullet {
+      background: #fff;
+    }
+
+    .swiper-pagination-bullet-active {
+      background: #fff;
     }
   }
 
@@ -72,7 +106,6 @@ export const CardsContainer = styled.div`
 export const ServiceCard = styled.div`
   min-width: 260px;
   height: 370px;
-  background: #232426;
   border-radius: 20px;
   padding: 20px;
   color: #ffffff;
@@ -80,14 +113,21 @@ export const ServiceCard = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(to top, #0f2027, #203a4300, #2c536400);
 
   h3 {
-    font-size: 1.2em;
-    font-weight: 600;
-    margin-bottom: 10px;
+    font-size: 1.3rem;
+    font-weight: 400;
+    line-height: 1.4;
+    margin-bottom: 15px;
+    padding: 25px 45px 0 25px;
+    font-family: 'Roboto', sans-serif;
     z-index: 2;
     position: relative;
+    background: rgba(35, 36, 38, 0.7);
+    padding: 5px 10px;
+    border-radius: 5px;
     color: #cfb790;
   }
 
@@ -101,10 +141,6 @@ export const ServiceCard = styled.div`
     overflow: hidden;
   }
 
-  &:hover .card-image {
-    opacity: 1;
-  }
-
   .card-image {
     position: absolute;
     top: 0;
@@ -113,13 +149,8 @@ export const ServiceCard = styled.div`
     height: 100%;
     object-fit: cover;
     border-radius: 20px;
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
+    opacity: 1;
     z-index: 1;
-
-    @media (max-width: 1024px) {
-      opacity: 1; // No hover effect on mobile/tablet
-    }
   }
 
   @media (min-width: 769px) and (max-width: 1024px) {
@@ -128,8 +159,8 @@ export const ServiceCard = styled.div`
   }
 
   @media (max-width: 768px) {
-    min-width: 240px;
-    height: 340px;
+    min-width: 300px;
+    height: 400px;
   }
 `;
 
@@ -173,6 +204,6 @@ export const slideText = styled.span`
   color: #ffffff;
   font-weight: 500;
   opacity: 0.7;
-  cursor: default; // No interaction
-  pointer-events: none; // Disable click events
+  cursor: default;
+  pointer-events: none;
 `;

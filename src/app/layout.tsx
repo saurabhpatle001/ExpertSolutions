@@ -99,10 +99,10 @@ export default function RootLayout({
               alternateName: ["expertwaterproofingsolutions", "indoreexpertwaterproofingsolutions", "expertheatproofingsolutions", "experroofcoatingsolutions"],
               description: "Expert Solutions is Indore\'s #1 provider of waterproofing, heatproofing, roof coating, and rainwater harvesting services. Specializing in big constructions, industries, and warehouses with eco-friendly practices, best management, and a strong client network across India.",
               url: "https://indorewaterproofing.com",
-              telephone: "+91-731-XXX-XXXX",
+              telephone: "+91-9644400650",
               address: {
                 "@type": "PostalAddress",
-                streetAddress: "123 Construction Lane",
+                streetAddress: "32, Anurag Nagar, Gate no 2, Near Jain Mandir, Indore, Madhya Pradesh",
                 addressLocality: "Indore",
                 addressRegion: "Madhya Pradesh",
                 postalCode: "452001",

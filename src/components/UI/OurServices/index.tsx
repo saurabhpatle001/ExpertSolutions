@@ -2,6 +2,11 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import Image from 'next/image';
 import { useIsMobile } from '../../../../libs/useIsMobile';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { EffectCoverflow, Pagination, Keyboard, Mousewheel } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/effect-coverflow';
+import 'swiper/css/pagination';
 import {
   ServicesContainer,
   TextContainer,
@@ -19,6 +24,8 @@ const OurServices = () => {
   const [currentPosition, setCurrentPosition] = useState(0);
   const [manualSlideTimeout, setManualSlideTimeout] = useState<NodeJS.Timeout | null>(null);
   const animationRef = useRef<number | null>(null);
+  const swiperRef = useRef<any>(null);
+  const slideIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const nextServiceSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev + 1) % services.length);
@@ -107,6 +114,24 @@ const OurServices = () => {
     };
   }, [isMobile, manualSlideTimeout, animate, handleTouchStart, handleTouchMove, handleTouchEnd]);
 
+  useEffect(() => {
+    if (isMobile && swiperRef.current && typeof swiperRef.current.slideTo === 'function') {
+      swiperRef.current.slideTo(0); // Reset to first slide on mobile view change
+    }
+  }, [isMobile]);
+
+  // Add loop for desktop slider
+  useEffect(() => {
+    if (!isMobile && !manualSlideTimeout) {
+      slideIntervalRef.current = setInterval(() => {
+        nextServiceSlide();
+      }, 3000); // Change slide every 3 seconds
+    }
+    return () => {
+      if (slideIntervalRef.current) clearInterval(slideIntervalRef.current);
+    };
+  }, [isMobile, manualSlideTimeout, nextServiceSlide]);
+
   return (
     <ServicesContainer id="our-services" className="section">
       <TextContainer>
@@ -127,14 +152,9 @@ const OurServices = () => {
           className="cards-wrapper"
           ref={cardsWrapperRef}
           style={{
-            transform: isMobile
-              ? `translateX(${currentPosition}px)`
-              : `translateX(-${currentSlide * 20}%)`,
-            transition: isMobile
-              ? manualSlideTimeout
-                ? 'none'
-                : 'transform 0.5s ease-in-out'
-              : 'transform 0.7s ease-in-out',
+            transform: !isMobile ? `translateX(-${currentSlide * 20}%)` : `translateX(${currentPosition}px)`,
+            transition: !isMobile ? 'transform 0.7s ease-in-out' : (manualSlideTimeout ? 'none' : 'transform 0.5s ease-in-out'),
+            display: isMobile ? 'none' : 'flex',
           }}
         >
           {services.map((service, index) => (
@@ -157,25 +177,52 @@ const OurServices = () => {
               </div>
             </ServiceCard>
           ))}
-          {isMobile &&
-            services.map((service) => (
-              <ServiceCard key={`${service.title}-dup`}>
-                <h3>{service.title}</h3>
-                <div
-                  className="image-container"
-                  onClick={() => handleImageClick(service.link)}
-                >
-                  <Image
-                    src={service.img}
-                    alt={service.title}
-                    fill
-                    style={{ objectFit: 'cover', borderRadius: '20px' }}
-                    className="card-image"
-                  />
-                </div>
-              </ServiceCard>
-            ))}
         </div>
+        {isMobile && (
+          <Swiper
+            onSwiper={(swiper) => {
+              swiperRef.current = swiper;
+            }}
+            effect="coverflow"
+            grabCursor={true}
+            centeredSlides={true}
+            slidesPerView="auto"
+            coverflowEffect={{
+              rotate: 0,
+              stretch: 0,
+              depth: 100,
+              modifier: 2,
+              slideShadows: true,
+            }}
+            keyboard={{ enabled: true }}
+            mousewheel={{ thresholdDelta: 70 }}
+            spaceBetween={60}
+            loop={true}
+            pagination={{ clickable: true }}
+            modules={[EffectCoverflow, Pagination, Keyboard, Mousewheel]}
+            className="swiper-mobile"
+          >
+            {services.map((service) => (
+              <SwiperSlide key={service.title}>
+                <ServiceCard>
+                  <h3>{service.title}</h3>
+                  <div
+                    className="image-container"
+                    onClick={() => handleImageClick(service.link)}
+                  >
+                    <Image
+                      src={service.img}
+                      alt={service.title}
+                      fill
+                      style={{ objectFit: 'cover', borderRadius: '20px' }}
+                      className="card-image"
+                    />
+                  </div>
+                </ServiceCard>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        )}
         {!isMobile && (
           <SliderArrow className="right" onClick={nextServiceSlide}>
             <Image
@@ -186,12 +233,7 @@ const OurServices = () => {
             />
           </SliderArrow>
         )}
-        {isMobile && (
-  <div className="decorative-arrows">
-    <span className="slide-text">Slide Card</span>
-  </div>
-)}
-
+        {isMobile && <div className="decorative-arrows"><span className="slide-text">Slide Card</span></div>}
       </CardsContainer>
     </ServicesContainer>
   );
