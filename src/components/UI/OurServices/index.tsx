@@ -25,7 +25,6 @@ const OurServices = () => {
   const [manualSlideTimeout, setManualSlideTimeout] = useState<NodeJS.Timeout | null>(null);
   const animationRef = useRef<number | null>(null);
   const swiperRef = useRef<any>(null);
-  const slideIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const nextServiceSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev + 1) % services.length);
@@ -35,21 +34,13 @@ const OurServices = () => {
     setCurrentSlide((prev) => (prev - 1 + services.length) % services.length);
   }, []);
 
-  const handleImageClick = useCallback((link: string) => {
-    window.location.href = link;
-  }, []);
-
-  const slideSpeed = 0.4; // Slow speed for constant sliding
+  const slideSpeed = 0.4; // Initial speed for smooth transition
 
   const animate = useCallback(() => {
     if (!isMobile || !cardsWrapperRef.current) return;
-    setCurrentPosition((prev) => {
-      const newPos = prev - slideSpeed;
-      const maxScroll = cardsWrapperRef.current!.scrollWidth - cardsWrapperRef.current!.clientWidth;
-      return newPos;
-    });
+    // Initialize animation without enforcing direction
     animationRef.current = requestAnimationFrame(animate);
-  }, [isMobile, slideSpeed]);
+  }, [isMobile]);
 
   const handleTouchStart = useCallback(
     (e: TouchEvent) => {
@@ -70,7 +61,8 @@ const OurServices = () => {
       if (touchStartX.current !== null && cardsWrapperRef.current) {
         const touchEndX = e.touches[0].clientX;
         const deltaX = touchStartX.current - touchEndX;
-        cardsWrapperRef.current.style.transition = 'transform 0.5s ease-in-out'; // Smooth transition
+        // Allow bidirectional movement based on touch delta
+        cardsWrapperRef.current.style.transition = 'transform 0.5s ease-in-out';
         cardsWrapperRef.current.style.transform = `translateX(${currentPosition - deltaX}px)`;
       }
     },
@@ -80,9 +72,10 @@ const OurServices = () => {
   const handleTouchEnd = useCallback(() => {
     if (touchStartX.current !== null && cardsWrapperRef.current) {
       const touchEndX = touchStartX.current;
-      const deltaX = touchStartX.current - (touchEndX - (cardsWrapperRef.current.getBoundingClientRect().left || 0));
-      setCurrentPosition((prev) => prev - deltaX); // Unlimited sliding
-      cardsWrapperRef.current.style.transition = 'transform 0.5s ease-in-out'; // Ensure smooth end
+      const deltaX = touchStartX.current - touchEndX;
+      // Update position for bidirectional sliding
+      setCurrentPosition((prev) => prev - deltaX);
+      cardsWrapperRef.current.style.transition = 'transform 0.5s ease-in-out';
       setManualSlideTimeout(
         setTimeout(() => {
           setManualSlideTimeout(null);
@@ -120,18 +113,6 @@ const OurServices = () => {
     }
   }, [isMobile]);
 
-  // Add loop for desktop slider
-  useEffect(() => {
-    if (!isMobile && !manualSlideTimeout) {
-      slideIntervalRef.current = setInterval(() => {
-        nextServiceSlide();
-      }, 3000); // Change slide every 3 seconds
-    }
-    return () => {
-      if (slideIntervalRef.current) clearInterval(slideIntervalRef.current);
-    };
-  }, [isMobile, manualSlideTimeout, nextServiceSlide]);
-
   return (
     <ServicesContainer id="our-services" className="section">
       <TextContainer>
@@ -165,7 +146,6 @@ const OurServices = () => {
               <h3>{service.title}</h3>
               <div
                 className="image-container"
-                onClick={() => handleImageClick(service.link)}
               >
                 <Image
                   src={service.img}
@@ -197,10 +177,15 @@ const OurServices = () => {
             keyboard={{ enabled: true }}
             mousewheel={{ thresholdDelta: 70 }}
             spaceBetween={60}
-            loop={true}
+            // Removed loop to allow natural bidirectional scrolling
+            allowTouchMove={true}
             pagination={{ clickable: true }}
             modules={[EffectCoverflow, Pagination, Keyboard, Mousewheel]}
             className="swiper-mobile"
+            onTouchMove={(swiper) => {
+              const touch = swiper.touches.currentX - swiper.touches.startX;
+              swiper.setTranslate(swiper.getTranslate() + touch); // Enable bidirectional swiping
+            }}
           >
             {services.map((service) => (
               <SwiperSlide key={service.title}>
@@ -208,7 +193,6 @@ const OurServices = () => {
                   <h3>{service.title}</h3>
                   <div
                     className="image-container"
-                    onClick={() => handleImageClick(service.link)}
                   >
                     <Image
                       src={service.img}

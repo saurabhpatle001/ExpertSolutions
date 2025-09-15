@@ -65,9 +65,9 @@ export const CardsContainer = styled.div`
     padding-bottom: 50px;
 
     .swiper-slide {
-      width: 300px;
+      width: 280px; // Reduced width for mobile view
       height: 400px;
-      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+      box-shadow: 0px 0px;
       filter: blur(1px);
       border-radius: 20px;
       background-image: url('/images/Service-background-2.png');
@@ -145,7 +145,7 @@ export const ServiceCard = styled.div`
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
+    width: 90%; // Reduced width to scale down images
     height: 100%;
     object-fit: cover;
     border-radius: 20px;
@@ -159,7 +159,7 @@ export const ServiceCard = styled.div`
   }
 
   @media (max-width: 768px) {
-    min-width: 300px;
+    min-width: 250px; // Reduced width for mobile view
     height: 400px;
   }
 `;
