@@ -74,17 +74,23 @@ export default function RootLayout({
           strategy="afterInteractive"
         />
         <Script
-          id="gtag-init"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'AW-17536235395');
-            `,
-          }}
-        />
+  src="https://www.googletagmanager.com/gtag/js?id=AW-17937370139"
+  strategy="afterInteractive"
+/>
+
+<Script
+  id="gtag-init"
+  strategy="afterInteractive"
+  dangerouslySetInnerHTML={{
+    __html: `
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'AW-17937370139');
+    `,
+  }}
+/>
+
       </head>
       <body>
         <Layout>{children}</Layout>
