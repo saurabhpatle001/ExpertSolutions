@@ -1,20 +1,21 @@
 import Image from 'next/image';
+import Link from 'next/link';           // ← Important
 import logo2 from '../../../../public/images/logo2.png';
 import ic_chevron_down from '../../../../public/svgs/ic_chevron_down.svg';
 import ic_copyright from '../../../../public/svgs/ic_copyright.svg';
 
 const linksArr = [
   {
-    title: 'About us',
-    links: ['Our Company', 'Careers', 'Press kits'],
+    title: 'About Us',
+    links: ['Our Company', 'Careers', 'Press Kits'],
   },
   {
     title: 'Legal',
-    links: ['Terms of use', 'Privacy policy', 'About us'],
+    links: ['Terms of Use', 'Privacy Policy', 'Cookie Policy'],
   },
   {
-    title: 'About us',
-    links: ['Contact us', 'FAQ'],
+    title: 'Support',
+    links: ['Contact Us', 'FAQ'],
   },
 ];
 
@@ -37,31 +38,40 @@ const Footer = () => {
     <Wrapper>
       <Inner>
         <FooterLogo>
-          <Image src={logo2} alt="logo2" />
+          <Image src={logo2} alt="Expert Solutions Logo" />
         </FooterLogo>
+
         <FooterMainContent>
           <FooterMiddle>
             <FooterNavigation>
-              {linksArr.map((l, i) => (
+              {linksArr.map((section, i) => (
                 <GridColumn key={i}>
-                  <h3>{l.title}</h3>
+                  <h3>{section.title}</h3>
                   <LinksContainer>
-                    {l.links.map((link, i) => (
-                      <li key={i}>{link}</li>
-                    ))}
+                    {section.links.map((link, index) => {
+                      if (link === 'Privacy Policy') {
+                        return (
+                          <li key={index}>
+                            <Link href="/privacy-policy">Privacy Policy</Link>
+                          </li>
+                        );
+                      }
+                      return <li key={index}>{link}</li>;
+                    })}
                   </LinksContainer>
                 </GridColumn>
               ))}
             </FooterNavigation>
           </FooterMiddle>
+
           <FooterBottom>
             <Translator>
               <h3>English (United Kingdom)</h3>
-              <Image src={ic_chevron_down} alt="chevron down" />
+              <Image src={ic_chevron_down} alt="chevron" />
             </Translator>
             <CopyRight>
-              <Image src={ic_copyright} alt="copyright svg" />
-              Indore Expert Solutions
+              <Image src={ic_copyright} alt="copyright" />
+              © {new Date().getFullYear()} Expert Solutions
             </CopyRight>
           </FooterBottom>
         </FooterMainContent>
