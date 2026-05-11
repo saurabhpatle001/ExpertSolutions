@@ -21,7 +21,7 @@ export default function PrivacyPolicy() {
       <Section>
         <SectionTitle>1. Introduction</SectionTitle>
         <Paragraph>
-          Expert Solutions ("we", "us", or "our") operates{' '}
+          Expert Solutions (“we”, “us”, or “our”) operates{' '}
           <strong>indorewaterproofing.com</strong>. We are committed to protecting your privacy. 
           This Privacy Policy explains how we collect, use, and protect your information when you 
           visit our website or avail our waterproofing, heatproofing, and rainwater harvesting services.
