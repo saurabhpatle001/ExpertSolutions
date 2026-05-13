@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import Link from 'next/link';           // ← Important
+import Link from 'next/link';
 import logo2 from '../../../../public/images/logo2.png';
 import ic_chevron_down from '../../../../public/svgs/ic_chevron_down.svg';
 import ic_copyright from '../../../../public/svgs/ic_copyright.svg';
@@ -53,6 +53,13 @@ const Footer = () => {
                         return (
                           <li key={index}>
                             <Link href="/privacy-policy">Privacy Policy</Link>
+                          </li>
+                        );
+                      }
+                      if (link === 'Terms of Use') {
+                        return (
+                          <li key={index}>
+                            <Link href="/terms-of-use">Terms of Use</Link>
                           </li>
                         );
                       }
