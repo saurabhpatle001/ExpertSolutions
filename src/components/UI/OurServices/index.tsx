@@ -4,8 +4,11 @@ import Image from 'next/image';
 import { useIsMobile } from '../../../../libs/useIsMobile';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow, Pagination, Keyboard, Mousewheel } from 'swiper/modules';
+// @ts-ignore: swiper CSS side-effect import missing type declarations
 import 'swiper/css';
+// @ts-ignore: swiper CSS side-effect import missing type declarations
 import 'swiper/css/effect-coverflow';
+// @ts-ignore: swiper CSS side-effect import missing type declarations
 import 'swiper/css/pagination';
 import {
   ServicesContainer,

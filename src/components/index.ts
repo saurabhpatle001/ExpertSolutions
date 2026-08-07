@@ -14,4 +14,4 @@ export { default as Footer } from './UI/Footer';
 export { default as Preloader } from './UI/Preloader';
 export { default as MaskText } from './Common/MaskText';
 export { default as ContactUs } from './UI/ContactUs';
-
+export { default as ThankYou } from './UI/ThankYou';
