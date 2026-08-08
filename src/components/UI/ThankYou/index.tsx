@@ -3,11 +3,27 @@
 import { useEffect, useState } from 'react'
 import { Wrapper, Card, Loader, ProgressBar } from './styles'
 
+declare global {
+  interface Window {
+    gtag?: (...args: any[]) => void
+  }
+}
+
 const ThankYou = () => {
   const [countdown, setCountdown] = useState(3)
   const [whatsappUrl, setWhatsappUrl] = useState('')
 
   useEffect(() => {
+    // Google Ads Contact Conversion
+    if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+      window.gtag('event', 'conversion', {
+        send_to: 'AW-18374080715/swq2CO_xkd4cEMvxuLlE',
+        value: 1.0,
+        currency: 'INR',
+      })
+    }
+
+    // Get WhatsApp URL saved before redirecting to Thank You page
     const url = sessionStorage.getItem('whatsappUrl')
 
     if (!url) return
@@ -44,7 +60,7 @@ const ThankYou = () => {
   return (
     <Wrapper>
       <Card>
-        <div className="checkmark">✓</div>
+        <div>✓</div>
 
         <h1>Thank You!</h1>
 
