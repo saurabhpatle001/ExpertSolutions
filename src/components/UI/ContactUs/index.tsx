@@ -1,10 +1,9 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { motion } from 'framer-motion'
-import Image from 'next/image'
-import { useRouter } from 'next/navigation'
-import { useIsMobile } from '../../../../libs/useIsMobile'
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 import {
   Wrapper,
@@ -15,21 +14,21 @@ import {
   ContactImage,
   FreeCapContainer,
   ContactInfo,
-} from './styles'
+} from './styles';
 
-import { formFields } from './constants'
+import { formFields } from './constants';
+import { trackWhatsAppConversion } from '@/lib/googleAds';
 
 interface FormData {
-  name: string
-  mobile: string
-  pincode: string
-  city: string
-  area: string
+  name: string;
+  mobile: string;
+  pincode: string;
+  city: string;
+  area: string;
 }
 
 const ContactUs = () => {
-  const router = useRouter()
-  const isMobile = useIsMobile()
+  const router = useRouter();
 
   const [formData, setFormData] = useState<FormData>({
     name: '',
@@ -37,19 +36,28 @@ const ContactUs = () => {
     pincode: '',
     city: '',
     area: '',
-  })
+  });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { name, value } = e.target;
 
     setFormData((prev) => ({
       ...prev,
       [name]: value,
-    }))
-  }
+    }));
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
+
+    /*
+     * Google Ads:
+     * Track WhatsApp lead when the inquiry form
+     * is successfully submitted.
+     */
+    trackWhatsAppConversion();
 
     const currentDate = new Date()
       .toLocaleString('en-IN', {
@@ -61,7 +69,7 @@ const ContactUs = () => {
         minute: '2-digit',
         hour12: true,
       })
-      .replace(',', '')
+      .replace(',', '');
 
     const whatsappMessage = `Hey Experts, I'm interested in your services.
 
@@ -73,19 +81,24 @@ Pin Code: ${formData.pincode}
 Address: ${formData.city}
 Area: ${formData.area} sq ft
 
-Submitted on: ${currentDate} IST`
+Submitted on: ${currentDate} IST`;
 
-    const whatsappUrl = `https://wa.me/9993337967?text=${encodeURIComponent(
-      whatsappMessage
-    )}`
+    const whatsappUrl =
+      `https://wa.me/919993337967?text=${encodeURIComponent(
+        whatsappMessage
+      )}`;
 
-    sessionStorage.setItem('whatsappUrl', whatsappUrl)
+    /*
+     * Save WhatsApp URL temporarily so the
+     * Thank You page can open the same message.
+     */
+    sessionStorage.setItem('whatsappUrl', whatsappUrl);
 
-    router.push('/thank-you')
-  }
+    router.push('/thank-you');
+  };
 
   return (
-    <Wrapper id="contact">
+    <Wrapper>
       <SectionContent>
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -93,7 +106,7 @@ Submitted on: ${currentDate} IST`
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          <i className="fas fa-envelope"></i> Contact Us
+          Contact Us
         </motion.h2>
 
         <ContactContainer>
@@ -119,7 +132,9 @@ Submitted on: ${currentDate} IST`
                   type={field.type}
                   name={field.name}
                   placeholder={field.placeholder}
-                  value={formData[field.name as keyof FormData]}
+                  value={
+                    formData[field.name as keyof FormData]
+                  }
                   onChange={handleInputChange}
                   required
                   initial={{ opacity: 0, x: -20 }}
@@ -143,8 +158,8 @@ Submitted on: ${currentDate} IST`
                 }}
                 viewport={{ once: true }}
               >
-                <i className="fab fa-whatsapp"></i>
-                {' '}Send Inquiry via WhatsApp
+                <i className="fab fa-whatsapp"></i>{' '}
+                Send Inquiry via WhatsApp
               </motion.button>
             </InquiryForm>
 
@@ -181,7 +196,7 @@ Submitted on: ${currentDate} IST`
         </ContactContainer>
       </SectionContent>
     </Wrapper>
-  )
-}
+  );
+};
 
-export default ContactUs
+export default ContactUs;
